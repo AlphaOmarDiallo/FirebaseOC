@@ -2,7 +2,6 @@ package com.ocr.firebaseoc;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.UserManager;
 
 import androidx.annotation.Nullable;
 
@@ -12,13 +11,12 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.snackbar.Snackbar;
 import com.ocr.firebaseoc.databinding.ActivityMainBinding;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private static final int RC_SIGN_IN = 9001;
-    UserManager userManager;
 
     @Override
     ActivityMainBinding getViewBinding() {
@@ -32,9 +30,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void setupListeners() {
-        binding.loginButton.setOnClickListener(view -> {
-            startSignInActivity();
-        });
+        binding.loginButton.setOnClickListener(view -> startSignInActivity());
     }
 
     @Override
@@ -45,10 +41,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private void startSignInActivity() {
         //Choose authentication providers
-        List<AuthUI.IdpConfig> providers =
-                Collections.singletonList(
-                        new AuthUI.IdpConfig.EmailBuilder().build()
-                );
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+        );
 
         // Launch the activity
         startActivityForResult(
