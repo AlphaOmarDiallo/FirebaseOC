@@ -1,4 +1,4 @@
-package com.ocr.firebaseoc;
+package com.ocr.firebaseoc.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.snackbar.Snackbar;
+import com.ocr.firebaseoc.BaseActivity;
+import com.ocr.firebaseoc.R;
 import com.ocr.firebaseoc.databinding.ActivityMainBinding;
 
 import java.util.Arrays;
@@ -19,7 +21,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private static final int RC_SIGN_IN = 9001;
 
     @Override
-    ActivityMainBinding getViewBinding() {
+    protected ActivityMainBinding getViewBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
