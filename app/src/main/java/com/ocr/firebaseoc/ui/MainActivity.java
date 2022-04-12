@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.ocr.firebaseoc.BaseActivity;
 import com.ocr.firebaseoc.R;
 import com.ocr.firebaseoc.databinding.ActivityMainBinding;
+import com.ocr.firebaseoc.manager.UserManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private static final int RC_SIGN_IN = 9001;
+    private UserManager userManager = UserManager.getInstance();
 
     @Override
     protected ActivityMainBinding getViewBinding() {
@@ -32,7 +34,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void setupListeners() {
-        binding.loginButton.setOnClickListener(view -> startSignInActivity());
+        binding.loginButton.setOnClickListener(view -> {
+            if (userManager.isCurrentUserLogged()) {
+                startProfileActivity();
+            } else {
+                startSignInActivity();
+            }
+        });
     }
 
     @Override
@@ -60,6 +68,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                         .build(),
                 RC_SIGN_IN
         );
+    }
+
+    // Launching Profile Activity
+    private void startProfileActivity(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    // Update Login Button when activity is resuming
+    private void updateLoginButton(){
+        binding.loginButton.setText(userManager.isCurrentUserLogged() ? getString(R.string.button_login_text_logged) : getString(R.string.button_login_text_not_logged));
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        updateLoginButton();
     }
 
     private void showSnackBar(String message) {
