@@ -1,5 +1,6 @@
 package com.ocr.firebaseoc.ui;
 
+import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,8 +34,22 @@ public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
         binding.updateButton.setOnClickListener(view -> {
         });
         binding.signOutButton.setOnClickListener(view -> {
+            userManager.signOut(this).addOnSuccessListener(aVoid -> {
+                finish();
+            });
         });
         binding.deleteButton.setOnClickListener(view -> {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.popup_message_confirmation_delete_account)
+                    .setPositiveButton(R.string.popup_message_choice_yes, (dialogInterface, i) ->
+                            userManager.deleteUser(ProfileActivity.this)
+                                    .addOnSuccessListener(aVoid -> {
+                                                finish();
+                                            }
+                                    )
+                    )
+                    .setNegativeButton(R.string.popup_message_choice_no, null)
+                    .show();
         });
     }
 
