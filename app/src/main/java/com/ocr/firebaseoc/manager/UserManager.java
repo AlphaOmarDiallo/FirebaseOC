@@ -1,6 +1,6 @@
 package com.ocr.firebaseoc.manager;
 
-import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.auth.FirebaseUser;
 import com.ocr.firebaseoc.repository.UserRepository;
 
 public class UserManager {
@@ -23,5 +23,13 @@ public class UserManager {
             }
         }
         return instance;
+    }
+
+    public FirebaseUser getCurrentUser() {
+        return userRepository.getCurrentUser();
+    }
+
+    public Boolean isCurrentUserLogged() {
+        return (this.getCurrentUser() != null);
     }
 }
